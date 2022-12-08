@@ -1,11 +1,54 @@
 import React from 'react';
 import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
 
-import { IconButton, TextButton, VerticalCourseCard } from '../components';
+import {
+    IconButton,
+    TextButton,
+    VerticalCourseCard,
+    LineDivider,
+    CategoryCard,
+    HorizontalCourseCard,
+} from '../components';
 
 import { COLORS, FONTS, SIZES, icons, images, dummyData } from '../constants';
 
 import { FlatList } from 'react-native-gesture-handler';
+
+const Section = ({ containerStyle, title, onPresss, children }) => {
+    return (
+        <View
+            style={{
+                ...containerStyle,
+            }}
+        >
+            <View
+                style={{
+                    flexDirection: 'row',
+                    paddingHorizontal: SIZES.padding,
+                }}
+            >
+                <Text
+                    style={{
+                        flex: 1,
+                        ...FONTS.h2,
+                    }}
+                >
+                    {title}
+                </Text>
+                <TextButton
+                    contentContainerStyle={{
+                        width: 80,
+                        borderRadius: 30,
+                        backgroundColor: COLORS.primary,
+                    }}
+                    label="See All"
+                    onPress={onPresss}
+                />
+            </View>
+            {children}
+        </View>
+    );
+};
 
 const Home = () => {
     const renderHeader = () => {
@@ -96,6 +139,65 @@ const Home = () => {
         );
     };
 
+    const renderCategories = () => {
+        return (
+            <Section title="Category">
+                <FlatList
+                    horizontal
+                    data={dummyData.categories}
+                    listKey="Categories"
+                    keyExtractor={(item) => `Categories-${item.id}`}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ marginTop: SIZES.radius }}
+                    renderItem={({ item, index }) => (
+                        <CategoryCard
+                            category={item}
+                            containerStyle={{
+                                marginLeft: index === 0 ? SIZES.padding : SIZES.radius,
+                                marginRight:
+                                    index === dummyData.categories.length - 1 ? SIZES.padding : 0,
+                            }}
+                        />
+                    )}
+                />
+            </Section>
+        );
+    };
+
+    const renderPopularCourses = () => {
+        return (
+            <Section
+                title="Popular Courses"
+                containerStyle={{
+                    marginTop: 30,
+                }}
+            >
+                <FlatList
+                    data={dummyData.courses_list_2}
+                    listKey="PopularCourses"
+                    scrollEnabled={false}
+                    keyExtractor={(item) => `PopularCourses-${item.id}`}
+                    contentContainerStyle={{
+                        marginTop: SIZES.radius,
+                        paddingHorizontal: SIZES.padding,
+                    }}
+                    renderItem={({ item, index }) => (
+                        <HorizontalCourseCard
+                            containerStyle={{
+                                marginVertical: SIZES.padding,
+                                marginTop: index === 0 ? SIZES.radius : SIZES.padding,
+                            }}
+                            course={item}
+                        />
+                    )}
+                    ItemSeparatorComponent={() => (
+                        <LineDivider lineStyle={{ backroundColor: COLORS.gray20 }} />
+                    )}
+                />
+            </Section>
+        );
+    };
+
     return (
         <View
             style={{
@@ -114,6 +216,16 @@ const Home = () => {
                 {renderStartLearning()}
 
                 {renderCourses()}
+
+                <LineDivider
+                    lineStyle={{
+                        marginVertical: SIZES.padding,
+                    }}
+                />
+
+                {renderCategories()}
+
+                {renderPopularCourses()}
             </ScrollView>
         </View>
     );
