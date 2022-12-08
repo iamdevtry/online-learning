@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
 
-import { FlatList } from 'react-native';
-
-import { IconButton, TextButton } from '../components';
+import { IconButton, TextButton, VerticalCourseCard } from '../components';
 
 import { COLORS, FONTS, SIZES, icons, images, dummyData } from '../constants';
+
+import { FlatList } from 'react-native-gesture-handler';
 
 const Home = () => {
     const renderHeader = () => {
@@ -73,6 +73,29 @@ const Home = () => {
         );
     };
 
+    const renderCourses = () => {
+        return (
+            <FlatList
+                horizontal
+                data={dummyData.courses_list_1}
+                listKey="Courses"
+                keyExtractor={(item) => `Courses-${item.id}`}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ marginTop: SIZES.padding }}
+                renderItem={({ item, index }) => (
+                    <VerticalCourseCard
+                        containerStyle={{
+                            marginLeft: index === 0 ? SIZES.padding : SIZES.radius,
+                            marginRight:
+                                index === dummyData.courses_list_1.length - 1 ? SIZES.padding : 0,
+                        }}
+                        course={item}
+                    />
+                )}
+            />
+        );
+    };
+
     return (
         <View
             style={{
@@ -89,6 +112,8 @@ const Home = () => {
                 showsVerticalScrollIndicator={false}
             >
                 {renderStartLearning()}
+
+                {renderCourses()}
             </ScrollView>
         </View>
     );
