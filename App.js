@@ -1,3 +1,7 @@
+import { ApolloProvider } from '@apollo/client';
+import { AuthProvider } from './services/auth';
+import apolloClient from './apolloClient';
+
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,16 +21,31 @@ const App = () => {
     }
 
     return (
-        <NavigationContainer>
-            <Stack.Navigator
-                screenOptions={{
-                    headerShown: false,
-                }}
-                initialRouteName={'Dashboard'}
-            >
-                <Stack.Screen name="Dashboard" component={MainLayout} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        // <NavigationContainer>
+        //     <Stack.Navigator
+        //         screenOptions={{
+        //             headerShown: false,
+        //         }}
+        //         initialRouteName={'Dashboard'}
+        //     >
+        //         <Stack.Screen name="Dashboard" component={MainLayout} />
+        //     </Stack.Navigator>
+        // </NavigationContainer>
+
+        <ApolloProvider client={apolloClient}>
+            <AuthProvider>
+                <NavigationContainer>
+                    <Stack.Navigator
+                        screenOptions={{
+                            headerShown: false,
+                        }}
+                        initialRouteName={'Dashboard'}
+                    >
+                        <Stack.Screen name="Dashboard" component={MainLayout} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </AuthProvider>
+        </ApolloProvider>
     );
 };
 
