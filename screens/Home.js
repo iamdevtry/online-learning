@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
 
+import { useLessons, useSkills } from '../graphql/hooks';
+
 import {
     IconButton,
     TextButton,
@@ -51,6 +53,16 @@ const Section = ({ containerStyle, title, onPresss, children }) => {
 };
 
 const Home = () => {
+    const { loading, error, skills } = useSkills();
+
+    const getLessons = useLessons();
+    const lessons = getLessons.lessons;
+    const loadingLessons = getLessons.loading;
+    const errorLoadingLessons = getLessons.error;
+
+    if (loading || loadingLessons) return <Text>Loading...</Text>;
+    if (error || errorLoadingLessons) return <Text>Error : {error.message}</Text>;
+
     const renderHeader = () => {
         return (
             <View
@@ -141,12 +153,12 @@ const Home = () => {
 
     const renderCategories = () => {
         return (
-            <Section title="Category">
+            <Section title="Skills">
                 <FlatList
                     horizontal
-                    data={dummyData.categories}
-                    listKey="Categories"
-                    keyExtractor={(item) => `Categories-${item.id}`}
+                    data={skills}
+                    listKey="Skills"
+                    keyExtractor={(item) => `Skills-${item.id}`}
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{ marginTop: SIZES.radius }}
                     renderItem={({ item, index }) => (
@@ -154,8 +166,7 @@ const Home = () => {
                             category={item}
                             containerStyle={{
                                 marginLeft: index === 0 ? SIZES.padding : SIZES.radius,
-                                marginRight:
-                                    index === dummyData.categories.length - 1 ? SIZES.padding : 0,
+                                marginRight: index === skills.length - 1 ? SIZES.padding : 0,
                             }}
                         />
                     )}
@@ -167,16 +178,16 @@ const Home = () => {
     const renderPopularCourses = () => {
         return (
             <Section
-                title="Popular Courses"
+                title="Lessons"
                 containerStyle={{
                     marginTop: 30,
                 }}
             >
                 <FlatList
-                    data={dummyData.courses_list_2}
-                    listKey="PopularCourses"
+                    data={lessons}
+                    listKey="Lessons"
                     scrollEnabled={false}
-                    keyExtractor={(item) => `PopularCourses-${item.id}`}
+                    keyExtractor={(item) => `Lessons-${item.id}`}
                     contentContainerStyle={{
                         marginTop: SIZES.radius,
                         paddingHorizontal: SIZES.padding,

@@ -6,7 +6,8 @@ const CategoryCard = ({ category, containerStyle }) => {
     return (
         <TouchableOpacity>
             <ImageBackground
-                source={category?.thumbnail}
+                // source={category?.thumbnail}
+                source="22"
                 resizeMode="cover"
                 style={{
                     height: 150,
@@ -26,7 +27,7 @@ const CategoryCard = ({ category, containerStyle }) => {
                         ...FONTS.h2,
                     }}
                 >
-                    {category?.title}
+                    {category?.name}
                 </Text>
             </ImageBackground>
         </TouchableOpacity>

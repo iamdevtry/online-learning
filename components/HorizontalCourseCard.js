@@ -12,7 +12,7 @@ const HorizontalCourseCard = ({ containerStyle, course }) => {
             }}
         >
             <ImageBackground
-                source={course.thumbnail}
+                source={{ uri: course.thumbnail }}
                 resizeMode="cover"
                 style={{
                     width: 130,
@@ -70,22 +70,8 @@ const HorizontalCourseCard = ({ containerStyle, course }) => {
                             ...FONTS.body4,
                         }}
                     >
-                        By {course.instructor}
+                        By admin
                     </Text>
-                    <IconLabel
-                        icon={icons.time}
-                        label={course.duration}
-                        containerStyle={{
-                            marginLeft: SIZES.base,
-                        }}
-                        iconStyle={{
-                            width: 15,
-                            height: 15,
-                        }}
-                        labelStyle={{
-                            ...FONTS.body4,
-                        }}
-                    />
                 </View>
                 <View
                     style={{
@@ -96,11 +82,12 @@ const HorizontalCourseCard = ({ containerStyle, course }) => {
                 >
                     <Text
                         style={{
-                            ...FONTS.h2,
+                            ...FONTS.body4,
                             color: COLORS.primary,
                         }}
                     >
-                        ${course.price.toFixed(2)}
+                        {/* ${course.price.toFixed(2)} */}
+                        {/* {course.shortDescription} */}
                     </Text>
                     <IconLabel
                         icon={icons.star}
