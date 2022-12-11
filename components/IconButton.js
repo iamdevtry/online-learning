@@ -8,7 +8,7 @@ const IconButton = ({ containerStyle, icon, iconStyle, onPress }) => {
             style={{
                 ...containerStyle,
             }}
-            onpress={onPress}
+            onPress={onPress}
         >
             <Image
                 source={icon}

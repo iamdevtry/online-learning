@@ -15,6 +15,7 @@ import {
 import { COLORS, FONTS, SIZES, icons, images, dummyData } from '../constants';
 
 import { FlatList } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const Section = ({ containerStyle, title, onPresss, children }) => {
     return (
@@ -53,6 +54,8 @@ const Section = ({ containerStyle, title, onPresss, children }) => {
 };
 
 const Home = () => {
+    const navigation = useNavigation();
+
     const { loading, error, skills } = useSkills();
 
     const getLessons = useLessons();
@@ -163,11 +166,18 @@ const Home = () => {
                     contentContainerStyle={{ marginTop: SIZES.radius }}
                     renderItem={({ item, index }) => (
                         <CategoryCard
+                            sharedElementPrefix="Home"
                             category={item}
                             containerStyle={{
                                 marginLeft: index === 0 ? SIZES.padding : SIZES.radius,
                                 marginRight: index === skills.length - 1 ? SIZES.padding : 0,
                             }}
+                            onPress={() =>
+                                navigation.navigate('ListLesson', {
+                                    category: item,
+                                    sharedElementPrefix: 'Home',
+                                })
+                            }
                         />
                     )}
                 />

@@ -12,7 +12,7 @@ const HorizontalCourseCard = ({ containerStyle, course }) => {
             }}
         >
             <ImageBackground
-                source={{ uri: course.thumbnail }}
+                source={{ uri: course?.thumbnail }}
                 resizeMode="cover"
                 style={{
                     width: 130,

@@ -2,14 +2,37 @@ import { ApolloProvider } from '@apollo/client';
 import { AuthProvider } from './services/auth';
 import apolloClient from './apolloClient';
 
+import { Easing } from 'react-native';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { useFonts } from 'expo-font';
 import MainLayout from './screens/MainLayout';
+import ListLesson from './screens/Lesson/ListLesson';
 
-const Stack = createNativeStackNavigator();
-
+// const Stack = createNativeStackNavigator();
+const Stack = createSharedElementStackNavigator();
+const options = {
+    gestureEnabled: true,
+    transitionSpec: {
+        open: {
+            animation: 'timing',
+            config: { duration: 400, easing: Easing.inOut(Easing.ease) },
+        },
+        close: {
+            animation: 'timing',
+            config: { duration: 400, easing: Easing.inOut(Easing.ease) },
+        },
+        cardStyleInterpolator: ({ current: { progress } }) => {
+            return {
+                cardStyle: {
+                    opacity: progress,
+                },
+            };
+        },
+    },
+};
 const App = () => {
     const [fontsLoaded] = useFonts({
         'Roboto-Black': require('./assets/fonts/Roboto-Black.ttf'),
@@ -37,11 +60,18 @@ const App = () => {
                 <NavigationContainer>
                     <Stack.Navigator
                         screenOptions={{
+                            useNativeDriver: true,
                             headerShown: false,
                         }}
                         initialRouteName={'Dashboard'}
+                        detachInactiveScreens={false}
                     >
                         <Stack.Screen name="Dashboard" component={MainLayout} />
+                        <Stack.Screen
+                            name="ListLesson"
+                            component={ListLesson}
+                            options={() => options}
+                        />
                     </Stack.Navigator>
                 </NavigationContainer>
             </AuthProvider>
