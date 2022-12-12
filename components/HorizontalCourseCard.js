@@ -3,16 +3,18 @@ import React from 'react';
 import { COLORS, SIZES, FONTS, icons } from '../constants';
 import { IconLabel } from '../components';
 
-const HorizontalCourseCard = ({ containerStyle, course }) => {
+//bug when thumbnail is null
+const HorizontalCourseCard = ({ containerStyle, course, onPress }) => {
     return (
         <TouchableOpacity
             style={{
                 flexDirection: 'row',
                 ...containerStyle,
             }}
+            onPress={onPress}
         >
             <ImageBackground
-                source={{ uri: course?.thumbnail }}
+                source={{ uri: course?.thumbnail }} //bug here
                 resizeMode="cover"
                 style={{
                     width: 130,

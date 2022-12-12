@@ -270,6 +270,9 @@ const ListLesson = ({ navigation, route }) => {
                             marginVertical: SIZES.padding,
                             marginTop: index === 0 ? SIZES.radius : SIZES.padding,
                         }}
+                        onPress={() =>
+                            navigation.navigate('DetailLesson', { selectedCourse: item })
+                        }
                     />
                 )}
                 ItemSeparatorComponent={() => (
@@ -287,15 +290,17 @@ const ListLesson = ({ navigation, route }) => {
 };
 
 ListLesson.sharedElements = (route, otherRoute, showing) => {
-    const { category, sharedElementPrefix } = route.params;
-    return [
-        {
-            id: `${sharedElementPrefix}-CategoryCard-Bg-${category?.id}`,
-        },
-        {
-            id: `${sharedElementPrefix}-CategoryCard-Name-${category?.id}`,
-        },
-    ];
+    if (otherRoute.name === 'Dashboard') {
+        const { category, sharedElementPrefix } = route.params;
+        return [
+            {
+                id: `${sharedElementPrefix}-CategoryCard-Bg-${category?.id}`,
+            },
+            {
+                id: `${sharedElementPrefix}-CategoryCard-Name-${category?.id}`,
+            },
+        ];
+    }
 };
 
 export default ListLesson;

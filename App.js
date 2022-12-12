@@ -10,6 +10,7 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import { useFonts } from 'expo-font';
 import MainLayout from './screens/MainLayout';
 import ListLesson from './screens/Lesson/ListLesson';
+import DetailLesson from './screens/Lesson/DetailLesson';
 
 // const Stack = createNativeStackNavigator();
 const Stack = createSharedElementStackNavigator();
@@ -72,6 +73,7 @@ const App = () => {
                             component={ListLesson}
                             options={() => options}
                         />
+                        <Stack.Screen name="DetailLesson" component={DetailLesson} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </AuthProvider>
