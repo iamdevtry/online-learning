@@ -8,6 +8,14 @@ export const SKILLS_QUERY = gql`
         }
     }
 `;
+export const SKILL_NAME_QUERY = gql`
+    query Skill($skillId: ID!) {
+        skill(id: $skillId) {
+            id
+            name
+        }
+    }
+`;
 
 export const LESSONS_QUERY = gql`
     query Lessons {
@@ -18,6 +26,34 @@ export const LESSONS_QUERY = gql`
             shortDescription
             skillId
             levelId
+        }
+    }
+`;
+
+export const LESSONS_BY_SKILL_ID_QUERY = gql`
+    query LessonsBySkill($skillId: ID!) {
+        lessonsBySkill(skillId: $skillId) {
+            id
+            title
+            thumbnail
+            shortDescription
+            skillId
+            levelId
+        }
+    }
+`;
+
+export const LESSON_BY_ID_QUERY = gql`
+    query Lesson($lessonId: ID!) {
+        lesson(id: $lessonId) {
+            id
+            title
+            description
+            content
+            skillId
+            media {
+                url
+            }
         }
     }
 `;

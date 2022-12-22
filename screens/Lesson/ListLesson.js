@@ -15,6 +15,8 @@ import { SharedElement } from 'react-navigation-shared-element';
 import { IconButton, HorizontalCourseCard, LineDivider } from '../../components';
 import { COLORS, FONTS, SIZES, images, icons, dummyData } from '../../constants';
 
+import { useLessonsBySkillId } from '../../graphql/hooks';
+
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const HEADER_HEIGHT = 250;
@@ -29,6 +31,8 @@ const ListLesson = ({ navigation, route }) => {
     });
 
     const headerSharedValue = useSharedValue(80);
+
+    const { lessons, loading, error } = useLessonsBySkillId(category.id);
 
     const renderHeader = () => {
         const inputRange = [0, HEADER_HEIGHT - 50];
@@ -92,6 +96,13 @@ const ListLesson = ({ navigation, route }) => {
                 ],
             };
         });
+
+        if (loading) {
+            return <Text>Loading...</Text>;
+        }
+        if (error) {
+            return <Text>Error...</Text>;
+        }
 
         return (
             <Animated.View
@@ -220,7 +231,7 @@ const ListLesson = ({ navigation, route }) => {
         return (
             <AnimatedFlatList
                 ref={flatListRef}
-                data={dummyData.courses_list_2}
+                data={lessons}
                 keyExtractor={(item) => `Results-${item.id}`}
                 contentContainerStyle={{
                     paddingHorizontal: SIZES.padding,
@@ -271,7 +282,7 @@ const ListLesson = ({ navigation, route }) => {
                             marginTop: index === 0 ? SIZES.radius : SIZES.padding,
                         }}
                         onPress={() =>
-                            navigation.navigate('DetailLesson', { selectedCourse: item })
+                            navigation.navigate('DetailLesson', { selectedLesson: item })
                         }
                     />
                 )}
@@ -281,6 +292,7 @@ const ListLesson = ({ navigation, route }) => {
             />
         );
     };
+
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white }}>
             {renderResults()}
@@ -290,6 +302,7 @@ const ListLesson = ({ navigation, route }) => {
 };
 
 ListLesson.sharedElements = (route, otherRoute, showing) => {
+    console.log(showing);
     if (otherRoute.name === 'Dashboard') {
         const { category, sharedElementPrefix } = route.params;
         return [
