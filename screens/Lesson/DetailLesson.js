@@ -189,12 +189,12 @@ const DetailLesson = ({ navigation, route }) => {
     };
 
     const renderHeader = () => {
-        if (loadingSkill) {
-            return <Text>Loading...</Text>;
-        }
-        if (errorSkill) {
-            return <Text>Error...</Text>;
-        }
+        // if (loadingSkill) {
+        //     return <Text>Loading...</Text>;
+        // }
+        // if (errorSkill) {
+        //     return <Text>Error...</Text>;
+        // }
         if (skill?.name === 'Reading') {
             return renderHeaderReadingLesson();
         } else {
@@ -203,12 +203,12 @@ const DetailLesson = ({ navigation, route }) => {
     };
 
     const renderVideoSection = () => {
-        if (loadingSkill) {
-            return <Text>Loading...</Text>;
-        }
-        if (errorSkill) {
-            return <Text>Error...</Text>;
-        }
+        // if (loadingSkill) {
+        //     return <Text>Loading...</Text>;
+        // }
+        // if (errorSkill) {
+        //     return <Text>Error...</Text>;
+        // }
         if (skill?.name === 'Listening' || skill?.name === 'Speaking') {
             return (
                 <View
@@ -246,12 +246,12 @@ const DetailLesson = ({ navigation, route }) => {
     };
 
     const renderContent = () => {
-        if (loading) {
-            return <Text>Loading...</Text>;
-        }
-        if (error) {
-            return <Text>Error...</Text>;
-        }
+        // if (loading) {
+        //     return <Text>Loading...</Text>;
+        // }
+        // if (error) {
+        //     return <Text>Error...</Text>;
+        // }
         return (
             <ScrollView
                 style={{
@@ -271,7 +271,7 @@ const DetailLesson = ({ navigation, route }) => {
                 <Text style={{ paddingVertical: SIZES.padding, ...FONTS.body3 }}>
                     {selectedLesson?.shortDescription}
                 </Text>
-                <RenderHtml contentWidth={width} source={{ html: lesson.content }} />
+                <RenderHtml contentWidth={width} source={{ html: lesson?.content }} />
             </ScrollView>
         );
     };

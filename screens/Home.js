@@ -17,6 +17,8 @@ import { COLORS, FONTS, SIZES, icons, images, dummyData } from '../constants';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
+import { useAuthContext } from '../services/auth';
+
 const Section = ({ containerStyle, title, onPresss, children }) => {
     return (
         <View
@@ -54,8 +56,8 @@ const Section = ({ containerStyle, title, onPresss, children }) => {
 };
 
 const Home = () => {
+    const { user, logoutUser } = useAuthContext();
     const navigation = useNavigation();
-
     const { loading, error, skills } = useSkills();
 
     const getLessons = useLessons();
@@ -65,6 +67,11 @@ const Home = () => {
 
     if (loading || loadingLessons) return <Text>Loading...</Text>;
     if (error || errorLoadingLessons) return <Text>Error : {error.message}</Text>;
+
+    const handleLogout = () => {
+        logoutUser();
+        navigation.navigate('Login');
+    };
 
     const renderHeader = () => {
         return (
@@ -78,12 +85,22 @@ const Home = () => {
                 }}
             >
                 <View style={{ flex: 1 }}>
-                    <Text style={{ ...FONTS.h2 }}>Hello, Devtry</Text>
+                    <Text style={{ ...FONTS.h2 }}>Hello, {user?.username}</Text>
                     <Text style={{ color: COLORS.gray50, ...FONTS.body3 }}>
                         Thursday, 8th Dec 2022
                     </Text>
                 </View>
-                <IconButton icon={icons.notification} iconStyle={{ tintColor: COLORS.black }} />
+                {/* <IconButton icon={icons.notification} iconStyle={{ tintColor: COLORS.black }} /> */}
+                <TextButton
+                    label="Logout"
+                    contentContainerStyle={{
+                        backgroundColor: 'transparent',
+                    }}
+                    labelStyle={{
+                        color: COLORS.black,
+                    }}
+                    onPress={handleLogout}
+                />
             </View>
         );
     };

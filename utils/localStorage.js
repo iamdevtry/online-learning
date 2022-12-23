@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const storageKeyToken = 'sofCloneUserKey';
 
-const saveUser = (user) => AsyncStorage.setItem(storageKeyToken, user);
+const saveUser = (user) => AsyncStorage.setItem(storageKeyToken, JSON.stringify(user));
 
 const loadUser = () => AsyncStorage.getItem(storageKeyToken);
 

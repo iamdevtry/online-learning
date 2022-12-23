@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { useFonts } from 'expo-font';
 import MainLayout from './screens/MainLayout';
+import Login from './screens/Login';
 import ListLesson from './screens/Lesson/ListLesson';
 import DetailLesson from './screens/Lesson/DetailLesson';
 
@@ -45,17 +46,6 @@ const App = () => {
     }
 
     return (
-        // <NavigationContainer>
-        //     <Stack.Navigator
-        //         screenOptions={{
-        //             headerShown: false,
-        //         }}
-        //         initialRouteName={'Dashboard'}
-        //     >
-        //         <Stack.Screen name="Dashboard" component={MainLayout} />
-        //     </Stack.Navigator>
-        // </NavigationContainer>
-
         <ApolloProvider client={apolloClient}>
             <AuthProvider>
                 <NavigationContainer>
@@ -64,9 +54,10 @@ const App = () => {
                             useNativeDriver: true,
                             headerShown: false,
                         }}
-                        initialRouteName={'Dashboard'}
+                        initialRouteName={'Login'}
                         detachInactiveScreens={false}
                     >
+                        <Stack.Screen name="Login" component={Login} />
                         <Stack.Screen name="Dashboard" component={MainLayout} />
                         <Stack.Screen
                             name="ListLesson"
