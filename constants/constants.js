@@ -1,181 +1,181 @@
 const register_options = [
     {
         id: 0,
-        label: "STUDENT"
+        label: 'STUDENT',
     },
     {
         id: 1,
-        label: "TUTOR"
-    }
-]
+        label: 'TUTOR',
+    },
+];
 
 const walkthrough = [
     {
         id: 0,
-        title: "Explore Online Courses",
-        sub_title: "All types of educational & professional courses available online.",
-        image: require("../assets/images/work.png")
+        title: 'Explore Online Courses',
+        sub_title: 'All types of educational & professional courses available online.',
+        image: require('../assets/images/work.png'),
     },
     {
         id: 1,
-        title: "Explore Online Courses",
-        sub_title: "All types of educational & professional courses available online.",
-        image: require("../assets/images/work.png")
+        title: 'Explore Online Courses',
+        sub_title: 'All types of educational & professional courses available online.',
+        image: require('../assets/images/work.png'),
     },
     {
         id: 2,
-        title: "Explore Online Courses",
-        sub_title: "All types of educational & professional courses available online.",
-        image: require("../assets/images/work.png")
+        title: 'Explore Online Courses',
+        sub_title: 'All types of educational & professional courses available online.',
+        image: require('../assets/images/work.png'),
     },
-]
+];
 
 const categories = [
     {
         id: 0,
-        label: "Mobile Design",
-        icon: require("../assets/icons/mobile.png")
+        label: 'Mobile Design',
+        icon: require('../assets/icons/mobile.png'),
     },
     {
         id: 1,
-        label: "3D Modeling",
-        icon: require("../assets/icons/model_3d.png")
+        label: '3D Modeling',
+        icon: require('../assets/icons/model_3d.png'),
     },
     {
         id: 2,
-        label: "Web Designing",
-        icon: require("../assets/icons/web_design.png")
+        label: 'Web Designing',
+        icon: require('../assets/icons/web_design.png'),
     },
     {
         id: 3,
-        label: "Illustrations",
-        icon: require("../assets/icons/illustration.png")
+        label: 'Illustrations',
+        icon: require('../assets/icons/illustration.png'),
     },
     {
         id: 4,
-        label: "Drawing",
-        icon: require("../assets/icons/drawing.png")
+        label: 'Drawing',
+        icon: require('../assets/icons/drawing.png'),
     },
     {
         id: 5,
-        label: "Animation",
-        icon: require("../assets/icons/animation.png")
+        label: 'Animation',
+        icon: require('../assets/icons/animation.png'),
     },
     {
         id: 6,
-        label: "Education",
-        icon: require("../assets/icons/education.png")
+        label: 'Education',
+        icon: require('../assets/icons/education.png'),
     },
     {
         id: 7,
-        label: "Networking",
-        icon: require("../assets/icons/networking.png")
+        label: 'Networking',
+        icon: require('../assets/icons/networking.png'),
     },
     {
         id: 8,
-        label: "Coding",
-        icon: require("../assets/icons/coding.png")
+        label: 'Coding',
+        icon: require('../assets/icons/coding.png'),
     },
-]
+];
 
 const screens = {
-    home: "Home",
-    search: "Search",
-    profile: "Profile"
-}
+    home: 'Home',
+    search: 'Search',
+    profile: 'Dictionary',
+};
 
 const bottom_tabs = [
     {
         id: 0,
         label: screens.home,
-        icon: require("../assets/icons/home.png")
+        icon: require('../assets/icons/home.png'),
     },
     {
         id: 1,
         label: screens.search,
-        icon: require("../assets/icons/search.png")
+        icon: require('../assets/icons/search.png'),
     },
     {
         id: 2,
         label: screens.profile,
-        icon: require("../assets/icons/profile.png")
-    }
-]
+        icon: require('../assets/icons/all.png'),
+    },
+];
 
 const class_types = [
     {
         id: 0,
-        label: "All",
-        icon: require("../assets/icons/all.png")
+        label: 'All',
+        icon: require('../assets/icons/all.png'),
     },
     {
         id: 1,
-        label: "Staff Pick",
-        icon: require("../assets/icons/staff_pick.png")
+        label: 'Staff Pick',
+        icon: require('../assets/icons/staff_pick.png'),
     },
     {
         id: 2,
-        label: "Original",
-        icon: require("../assets/icons/original.png")
+        label: 'Original',
+        icon: require('../assets/icons/original.png'),
     },
-]
+];
 
 const class_levels = [
     {
         id: 0,
-        label: "Beginner"
+        label: 'Beginner',
     },
     {
         id: 1,
-        label: "Intermediate"
+        label: 'Intermediate',
     },
     {
         id: 2,
-        label: "Advanced"
-    }
-]
+        label: 'Advanced',
+    },
+];
 
 const created_within = [
     {
         id: 0,
-        label: "All Time"
+        label: 'All Time',
     },
     {
         id: 1,
-        label: "This Month"
+        label: 'This Month',
     },
     {
         id: 2,
-        label: "This Week"
+        label: 'This Week',
     },
     {
         id: 3,
-        label: "This Day"
+        label: 'This Day',
     },
     {
         id: 4,
-        label: "2 Months"
+        label: '2 Months',
     },
     {
         id: 5,
-        label: "4 Months"
-    }
-]
+        label: '4 Months',
+    },
+];
 
 const course_details_tabs = [
     {
         id: 0,
-        label: "Chapters",
+        label: 'Chapters',
     },
     {
         id: 1,
-        label: "Files",
+        label: 'Files',
     },
     {
         id: 2,
-        label: "Discussions",
-    }
-]
+        label: 'Discussions',
+    },
+];
 
 export default {
     register_options,
@@ -186,5 +186,5 @@ export default {
     class_types,
     class_levels,
     created_within,
-    course_details_tabs
-}
+    course_details_tabs,
+};

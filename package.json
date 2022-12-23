@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^6.2.5",
     "@react-navigation/stack": "^6.3.8",
     "apollo-link-context": "^1.0.20",
+    "axios": "^1.2.1",
     "expo": "~47.0.8",
     "expo-av": "~13.0.2",
     "expo-font": "^11.0.1",

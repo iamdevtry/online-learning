@@ -1,19 +1,8 @@
-import React from 'react';
-import {
-    View,
-    Text,
-    ImageBackground,
-    TouchableOpacity,
-    Keyboard,
-    StyleSheet,
-    Image,
-    useWindowDimensions,
-    SafeAreaView,
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, useWindowDimensions, SafeAreaView } from 'react-native';
 import Animated, {
     Extrapolate,
     interpolate,
-    useAnimatedScrollHandler,
     useAnimatedStyle,
     useSharedValue,
     withDelay,
@@ -24,10 +13,10 @@ import RenderHtml from 'react-native-render-html';
 import { SharedElement } from 'react-navigation-shared-element';
 import { Video } from 'expo-av';
 
-import { useLessonById } from '../../graphql/hooks';
+import { useLessonById, useSkillName } from '../../graphql/hooks';
 
-import { IconButton, LineDivider } from '../../components';
-import { COLORS, SIZES, FONTS, icons, constants, dummyData } from '../../constants';
+import { IconButton } from '../../components';
+import { COLORS, SIZES, FONTS, icons } from '../../constants';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const HEADER_HEIGHT = 250;
@@ -37,8 +26,13 @@ const DetailLesson = ({ navigation, route }) => {
     const { width } = useWindowDimensions();
     const [status, setStatus] = React.useState({});
     const { lesson, loading, error } = useLessonById(selectedLesson.id);
+    const {
+        skill,
+        loading: loadingSkill,
+        error: errorSkill,
+    } = useSkillName(selectedLesson.skillId);
 
-    const { category, sharedElementPrefix } = route.params;
+    const { sharedElementPrefix } = route.params;
     const flatListRef = React.useRef();
     const scrollY = useSharedValue(0);
 
@@ -69,10 +63,10 @@ const DetailLesson = ({ navigation, route }) => {
             };
         });
 
-        if (loading) {
+        if (loading || loadingSkill) {
             return <Text>Loading...</Text>;
         }
-        if (error) {
+        if (error || errorSkill) {
             return <Text>Error...</Text>;
         }
 
@@ -91,7 +85,7 @@ const DetailLesson = ({ navigation, route }) => {
                 ]}
             >
                 <SharedElement
-                    id={`${sharedElementPrefix}-CategoryCard-Bg-${category?.id}`}
+                    id={`${sharedElementPrefix}-CategoryCard-Bg-${skill?.id}`}
                     style={[StyleSheet.absoluteFillObject]}
                 >
                     <Image
@@ -195,8 +189,13 @@ const DetailLesson = ({ navigation, route }) => {
     };
 
     const renderHeader = () => {
-        let skill = 'Reading';
-        if (skill === 'Reading') {
+        if (loadingSkill) {
+            return <Text>Loading...</Text>;
+        }
+        if (errorSkill) {
+            return <Text>Error...</Text>;
+        }
+        if (skill?.name === 'Reading') {
             return renderHeaderReadingLesson();
         } else {
             return renderHeaderVideoLesson();
@@ -204,8 +203,13 @@ const DetailLesson = ({ navigation, route }) => {
     };
 
     const renderVideoSection = () => {
-        let skill = 'Reading';
-        if (skill === 'Listening') {
+        if (loadingSkill) {
+            return <Text>Loading...</Text>;
+        }
+        if (errorSkill) {
+            return <Text>Error...</Text>;
+        }
+        if (skill?.name === 'Listening' || skill?.name === 'Speaking') {
             return (
                 <View
                     style={{
@@ -243,24 +247,15 @@ const DetailLesson = ({ navigation, route }) => {
 
     const renderContent = () => {
         if (loading) {
-            return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text>Loading...</Text>
-                </View>
-            );
+            return <Text>Loading...</Text>;
         }
         if (error) {
-            return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text>Error...</Text>
-                </View>
-            );
+            return <Text>Error...</Text>;
         }
-
         return (
             <ScrollView
                 style={{
-                    marginTop: 270,
+                    marginTop: `${skill?.name === 'Reading' ? 50 : 10}%`,
                     marginBottom: SIZES.base,
                     flexDirection: 'column',
                     paddingHorizontal: SIZES.padding,
@@ -268,7 +263,7 @@ const DetailLesson = ({ navigation, route }) => {
                 showsVerticalScrollIndicator={false}
                 ref={flatListRef}
                 scrollEventThrottle={16}
-                onScroll={onScroll}
+                // onScroll={onScroll}
             >
                 <Text style={{ textAlign: 'center', color: COLORS.black, ...FONTS.h2 }}>
                     {selectedLesson?.title}
@@ -296,169 +291,3 @@ const DetailLesson = ({ navigation, route }) => {
 };
 
 export default DetailLesson;
-
-// import React from 'react';
-// import { View, Text, useWindowDimensions, SafeAreaView } from 'react-native';
-// import RenderHtml from 'react-native-render-html';
-
-// import { useLessonById, useSkillName } from '../../graphql/hooks';
-
-// import { IconButton } from '../../components';
-// import { COLORS, SIZES, FONTS, icons } from '../../constants';
-// import { ScrollView } from 'react-native-gesture-handler';
-// import { Video } from 'expo-av';
-
-// const DetailLesson = ({ navigation, route }) => {
-//     const { selectedLesson } = route.params;
-//     const video = React.useRef(null);
-//     const { width } = useWindowDimensions();
-//     const [status, setStatus] = React.useState({});
-//     const { lesson, loading, error } = useLessonById(selectedLesson.id);
-
-//     const getSkill = useSkillName(lesson?.skillId);
-//     const skillName = getSkill?.skill?.name;
-//     const loadingSkillName = getSkill?.loading;
-//     const errorLoadingSkillName = getSkill?.error;
-
-//     if (loading) {
-//         return (
-//             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//                 <Text>Loading...</Text>
-//             </View>
-//         );
-//     }
-//     if (error) {
-//         return (
-//             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//                 <Text>Error...</Text>
-//             </View>
-//         );
-//     }
-
-//     const renderThumbnail = () => {
-//         return (
-
-//         )
-//     }
-
-//     const renderHeaderComponents = () => {
-//         return (
-//             <>
-//                 {/* Back */}
-//                 <View
-//                     style={{
-//                         flex: 1,
-//                     }}
-//                 >
-//                     <IconButton
-//                         icon={icons.back}
-//                         iconStyle={{
-//                             width: 25,
-//                             height: 25,
-//                             tintColor: COLORS.primary,
-//                         }}
-//                         containerStyle={{
-//                             width: 80,
-//                             height: 40,
-//                             alignItems: 'center',
-//                             justifyContent: 'center',
-//                             flexDirection: 'row',
-//                         }}
-//                         onPress={() => navigation.goBack()}
-//                         title="Back"
-//                         titleStyle={{
-//                             color: COLORS.primary,
-//                             fontSize: 16,
-//                             fontWeight: 'bold',
-//                             marginLeft: 5,
-//                         }}
-//                     />
-//                 </View>
-//             </>
-//         );
-//     };
-
-//     const renderHeader = () => {
-//         return (
-//             <View
-//                 style={{
-//                     height: 40,
-//                     flexDirection: 'row',
-//                     zIndex: 1,
-//                 }}
-//             >
-//                 {renderHeaderComponents()}
-//             </View>
-//         );
-//     };
-
-//     const renderContent = () => {
-//         return (
-//             <ScrollView
-//                 style={{
-//                     marginBottom: SIZES.base,
-//                     flexDirection: 'column',
-//                     paddingHorizontal: SIZES.padding,
-//                     marginTop: 20,
-//                 }}
-//                 showsVerticalScrollIndicator={false}
-//             >
-//                 <Text style={{ textAlign: 'center', color: COLORS.black, ...FONTS.h2 }}>
-//                     {selectedLesson?.title}
-//                 </Text>
-//                 <Text style={{ paddingVertical: SIZES.padding, ...FONTS.body3 }}>
-//                     {selectedLesson?.shortDescription}
-//                 </Text>
-//                 <RenderHtml contentWidth={width} source={{ html: lesson.content }} />
-//             </ScrollView>
-//         );
-//     };
-
-//     const renderVideoSection = () => {
-//         return (
-//             <View
-//                 style={{
-//                     height: SIZES.height > 800 ? 220 : 200,
-//                     alignItems: 'center',
-//                     justifyContent: 'center',
-//                     backgroundColor: COLORS.gray90,
-//                 }}
-//             >
-//                 <Video
-//                     ref={video}
-//                     style={{
-//                         width: '100%',
-//                         height: '100%',
-//                         alignItems: 'center',
-//                         justifyContent: 'center',
-//                     }}
-//                     source={{
-//                         uri: lesson?.media[0]?.url,
-//                     }}
-//                     posterSource={{
-//                         uri: lesson?.media[0]?.url,
-//                     }}
-//                     useNativeControls
-//                     resizeMode="contain"
-//                     isLooping
-//                     onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-//                 />
-//             </View>
-//         );
-//     };
-
-//     return (
-//         <SafeAreaView
-//             style={{
-//                 flex: 1,
-//                 backgroundColor: COLORS.white,
-//             }}
-//         >
-//             {renderHeader()}
-//             {renderVideoSection()}
-//             {renderContent()}
-//         </SafeAreaView>
-//     );
-// };
-
-// export default DetailLesson;

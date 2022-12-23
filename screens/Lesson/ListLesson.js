@@ -282,7 +282,9 @@ const ListLesson = ({ navigation, route }) => {
                             marginTop: index === 0 ? SIZES.radius : SIZES.padding,
                         }}
                         onPress={() =>
-                            navigation.navigate('DetailLesson', { selectedLesson: item })
+                            navigation.navigate('DetailLesson', {
+                                selectedLesson: item,
+                            })
                         }
                     />
                 )}
@@ -302,7 +304,6 @@ const ListLesson = ({ navigation, route }) => {
 };
 
 ListLesson.sharedElements = (route, otherRoute, showing) => {
-    console.log(showing);
     if (otherRoute.name === 'Dashboard') {
         const { category, sharedElementPrefix } = route.params;
         return [

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
 
-import { useLessons, useSkills } from '../graphql/hooks';
+import { useLessons, useSkills, useSkillName } from '../graphql/hooks';
 
 import {
     IconButton,
@@ -131,6 +131,11 @@ const Home = () => {
         );
     };
 
+    const getNameSkill = (id) => {
+        const { skill } = useSkillName(id);
+        return skill;
+    };
+
     const renderCourses = () => {
         return (
             <FlatList
@@ -209,6 +214,11 @@ const Home = () => {
                                 marginTop: index === 0 ? SIZES.radius : SIZES.padding,
                             }}
                             course={item}
+                            onPress={() =>
+                                navigation.navigate('DetailLesson', {
+                                    selectedLesson: item,
+                                })
+                            }
                         />
                     )}
                     ItemSeparatorComponent={() => (
