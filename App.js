@@ -12,7 +12,7 @@ import MainLayout from './screens/MainLayout';
 import Login from './screens/Login';
 import ListLesson from './screens/Lesson/ListLesson';
 import DetailLesson from './screens/Lesson/DetailLesson';
-
+import DoExercise from './screens/Exercise/DoExercise';
 // const Stack = createNativeStackNavigator();
 const Stack = createSharedElementStackNavigator();
 const options = {
@@ -65,6 +65,7 @@ const App = () => {
                             options={() => options}
                         />
                         <Stack.Screen name="DetailLesson" component={DetailLesson} />
+                        <Stack.Screen name="DoExercise" component={DoExercise} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </AuthProvider>
