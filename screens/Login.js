@@ -1,5 +1,5 @@
 import { View, Text, TextInput, ActivityIndicator } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SIZES, FONTS, COLORS } from '../constants';
 import { TextButton } from '../components';
 import { useNavigation } from '@react-navigation/native';
@@ -21,11 +21,13 @@ const Login = () => {
         },
     });
 
-    if (user) {
-        if (user._z) {
-            navigation.navigate('Dashboard');
+    useEffect(() => {
+        if (user) {
+            if (user._z) {
+                navigation.navigate('Dashboard');
+            }
         }
-    }
+    });
 
     const validateForm = () => {
         if (username === '') {
@@ -46,6 +48,9 @@ const Login = () => {
                 update: (_, { data }) => {
                     setUser(data.login);
                     navigation.navigate('Dashboard');
+                    setUsername('');
+                    setPassword('');
+                    setErrorMsg(null);
                 },
             });
         }

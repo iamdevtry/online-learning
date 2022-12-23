@@ -4,7 +4,6 @@ import { View, Text, ImageBackground, Image, ScrollView } from 'react-native';
 import { useLessons, useSkills, useSkillName } from '../graphql/hooks';
 
 import {
-    IconButton,
     TextButton,
     VerticalCourseCard,
     LineDivider,

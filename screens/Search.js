@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
+import { View, Text, Image, TextInput, ActivityIndicator } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -11,17 +11,23 @@ import Animated, {
     useSharedValue,
 } from 'react-native-reanimated';
 
-import { TextButton, CategoryCard } from '../components';
+import { TextButton, HorizontalCourseCard } from '../components';
 
 import { COLORS, FONTS, SIZES, icons, dummyData } from '../constants';
+import { useSearchLessons } from '../graphql/hooks';
+
 const Search = () => {
     const navigation = useNavigation();
-
+    const [keyword, setKeyword] = React.useState('');
     const scrollViewRef = React.useRef();
     const scrollY = useSharedValue(0);
     const onScroll = useAnimatedScrollHandler((event) => {
         scrollY.value = event.contentOffset.y;
     });
+
+    const onFinish = () => {
+        console.log('Received values of form: ', keyword);
+    };
 
     const renderTopSearches = () => {
         return (
@@ -121,9 +127,11 @@ const Search = () => {
                                 ...FONTS.h4,
                                 flex: 1,
                             }}
-                            value=""
-                            placeholder="Search for Topics, Courses & Educators..."
+                            placeholder="Search lesson..."
                             placeholderTextColor={COLORS.gray}
+                            name="keyword"
+                            onChangeText={(text) => setKeyword(text)}
+                            onSubmitEditing={onFinish}
                         />
                     </View>
                 </Shadow>
@@ -132,6 +140,9 @@ const Search = () => {
     };
 
     const renderBrowseCategories = () => {
+        const { lessons, loading, error } = useSearchLessons(keyword);
+        if (loading) return <ActivityIndicator size="large" color={COLORS.primary} />;
+        if (error) return <Text>Error :(</Text>;
         return (
             <View
                 style={{
@@ -144,31 +155,27 @@ const Search = () => {
                         ...FONTS.h2,
                     }}
                 >
-                    Browse Categories
+                    Results
                 </Text>
                 <FlatList
-                    data={dummyData.categories}
-                    numColumns={2}
+                    data={lessons}
+                    listKey="Lessons"
                     scrollEnabled={false}
-                    listKey="BrowseCategories"
-                    keyExtractor={(item) => `BrowseCategories-${item.id}`}
+                    keyExtractor={(item) => `Lessons-${item.id}`}
                     contentContainerStyle={{
                         marginTop: SIZES.radius,
+                        paddingHorizontal: SIZES.padding,
                     }}
                     renderItem={({ item, index }) => (
-                        <CategoryCard
-                            sharedElementPrefix="Search"
-                            category={item}
+                        <HorizontalCourseCard
                             containerStyle={{
-                                height: 130,
-                                width: (SIZES.width - SIZES.padding * 2 - SIZES.radius) / 2,
-                                marginTop: SIZES.radius,
-                                marginLeft: (index + 1) % 2 == 0 ? SIZES.radius : SIZES.padding,
+                                marginVertical: SIZES.padding,
+                                marginTop: index === 0 ? SIZES.radius : SIZES.padding,
                             }}
+                            course={item}
                             onPress={() =>
-                                navigation.navigate('ListLesson', {
-                                    category: item,
-                                    sharedElementPrefix: 'Search',
+                                navigation.navigate('DetailLesson', {
+                                    selectedLesson: item,
                                 })
                             }
                         />
@@ -211,6 +218,20 @@ const Search = () => {
             {renderSearchBar()}
         </View>
     );
+};
+
+Search.sharedElements = (route, otherRoute, showing) => {
+    if (otherRoute.name === 'Dashboard') {
+        const { category, sharedElementPrefix } = route.params;
+        return [
+            {
+                id: `${sharedElementPrefix}-CategoryCard-Bg-${category?.id}`,
+            },
+            {
+                id: `${sharedElementPrefix}-CategoryCard-Name-${category?.id}`,
+            },
+        ];
+    }
 };
 
 export default Search;

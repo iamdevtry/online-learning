@@ -5,6 +5,7 @@ import {
     LESSONS_BY_SKILL_ID_QUERY,
     LESSON_BY_ID_QUERY,
     SKILL_NAME_QUERY,
+    SEARCH_LESSONS_QUERY,
 } from './queries';
 
 export function useSkills() {
@@ -58,6 +59,18 @@ export function useLessonById(lessonId) {
     });
     return {
         lesson: data?.lesson,
+        loading,
+        error: Boolean(error),
+    };
+}
+
+export function useSearchLessons(keyword) {
+    const { data, loading, error } = useQuery(SEARCH_LESSONS_QUERY, {
+        variables: { keyword },
+        fetchPolicy: 'network-only',
+    });
+    return {
+        lessons: data?.lessonByKeyword,
         loading,
         error: Boolean(error),
     };

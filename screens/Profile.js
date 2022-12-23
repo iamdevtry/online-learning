@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { View, Text, Image, TextInput } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
-import { FlatList } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
 import Animated, {
     Extrapolate,
     interpolate,
@@ -12,12 +10,8 @@ import Animated, {
     useSharedValue,
 } from 'react-native-reanimated';
 
-import { TextButton, CategoryCard } from '../components';
-
-import { COLORS, FONTS, SIZES, icons, dummyData } from '../constants';
+import { COLORS, FONTS, SIZES, icons } from '../constants';
 const Profile = () => {
-    const navigation = useNavigation();
-
     const scrollViewRef = React.useRef();
     const scrollY = useSharedValue(0);
     const onScroll = useAnimatedScrollHandler((event) => {

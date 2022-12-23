@@ -57,3 +57,14 @@ export const LESSON_BY_ID_QUERY = gql`
         }
     }
 `;
+
+export const SEARCH_LESSONS_QUERY = gql`
+    query LessonByKeyword($keyword: String!) {
+        lessonByKeyword(keyword: $keyword) {
+            id
+            title
+            thumbnail
+            skillId
+        }
+    }
+`;
